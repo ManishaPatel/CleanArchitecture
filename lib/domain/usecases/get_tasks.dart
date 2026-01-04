@@ -1,0 +1,15 @@
+import '../entities/task.dart';
+import '../repositories/task_repository.dart';
+import '../../core/errors/failures.dart';
+import '../../core/utils/either.dart';
+
+class GetTasks {
+  final TaskRepository repository;
+
+  GetTasks(this.repository);
+
+  Future<Either<Failure, List<Task>>> call() async {
+    return await repository.getTasks();
+  }
+}
+
