@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../../core/utils/responsive.dart';
 import '../controllers/task_controller.dart';
 import '../widgets/task_list_item.dart';
 import 'add_task_page.dart';
@@ -86,48 +87,77 @@ class HomePage extends StatelessWidget {
           child: Column(
             children: [
               // Stats Section
-              Container(
-                padding: const EdgeInsets.all(16),
-                color: Theme.of(context).colorScheme.surface,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    _StatCard(
-                      title: 'Total',
-                      value: controller.tasks.length.toString(),
-                      icon: Icons.list_alt,
-                      color: Colors.blue,
-                    ),
-                    _StatCard(
-                      title: 'Pending',
-                      value: controller.pendingTasks.length.toString(),
-                      icon: Icons.pending_actions,
-                      color: Colors.orange,
-                    ),
-                    _StatCard(
-                      title: 'Completed',
-                      value: controller.completedTasks.length.toString(),
-                      icon: Icons.check_circle,
-                      color: Colors.green,
-                    ),
-                  ],
+              ResponsiveContainer(
+                child: Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.all(16),
+                  color: Theme.of(context).colorScheme.surface,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      _StatCard(
+                        title: 'Total',
+                        value: controller.tasks.length.toString(),
+                        icon: Icons.list_alt,
+                        color: Colors.blue,
+                      ),
+                      _StatCard(
+                        title: 'Pending',
+                        value: controller.pendingTasks.length.toString(),
+                        icon: Icons.pending_actions,
+                        color: Colors.orange,
+                      ),
+                      _StatCard(
+                        title: 'Completed',
+                        value: controller.completedTasks.length.toString(),
+                        icon: Icons.check_circle,
+                        color: Colors.green,
+                      ),
+                    ],
+                  ),
                 ),
               ),
               const Divider(height: 1),
               // Tasks List
               Expanded(
-                child: ListView.builder(
-                  padding: const EdgeInsets.all(8),
-                  itemCount: controller.tasks.length,
-                  itemBuilder: (context, index) {
-                    final task = controller.tasks[index];
-                    return TaskListItem(
-                      task: task,
-                      onTap: () => Get.to(() => TaskDetailPage(task: task)),
-                      onToggle: () => controller.toggleTaskCompletion(task),
-                      onDelete: () => controller.removeTask(task.id),
-                    );
-                  },
+                child: ResponsiveContainer(
+                  child: ListView.builder(
+                    padding: const EdgeInsets.symmetric(vertical: 8),
+                    itemCount: controller.tasks.length,
+                    itemBuilder: (context, index) {
+                      final task = controller.tasks[index];
+                      return TaskListItem(
+                        task: task,
+                        onTap: () => Get.to(() => TaskDetailPage(task: task)),
+                        onToggle: () => controller.toggleTaskCompletion(task),
+                        onDelete: () {
+                          Get.dialog(
+                            AlertDialog(
+                              title: const Text('Delete Task'),
+                              content: const Text(
+                                  'Are you sure you want to delete this task? This action cannot be undone.'),
+                              actions: [
+                                TextButton(
+                                  onPressed: () => Get.back(),
+                                  child: const Text('Cancel'),
+                                ),
+                                TextButton(
+                                  onPressed: () {
+                                    Get.back();
+                                    controller.removeTask(task.id);
+                                  },
+                                  style: TextButton.styleFrom(
+                                    foregroundColor: Colors.red,
+                                  ),
+                                  child: const Text('Delete'),
+                                ),
+                              ],
+                            ),
+                          );
+                        },
+                      );
+                    },
+                  ),
                 ),
               ),
             ],

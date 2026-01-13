@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../../core/utils/responsive.dart';
 import '../../domain/entities/task.dart';
 import '../controllers/task_controller.dart';
 import 'edit_task_page.dart';
@@ -24,9 +25,10 @@ class TaskDetailPage extends StatelessWidget {
           ),
         ],
       ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
-        child: Column(
+      body: ResponsiveContainer(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(16),
+          child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // Status Badge
@@ -172,6 +174,7 @@ class TaskDetailPage extends StatelessWidget {
                   ),
                 )),
           ],
+        ),
         ),
       ),
     );

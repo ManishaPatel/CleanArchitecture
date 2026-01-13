@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../../core/utils/responsive.dart';
 import '../controllers/task_controller.dart';
 
 class AddTaskPage extends StatefulWidget {
@@ -29,9 +30,10 @@ class _AddTaskPageState extends State<AddTaskPage> {
         title: const Text('Add New Task'),
         centerTitle: true,
       ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
-        child: Form(
+      body: ResponsiveContainer(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(16),
+          child: Form(
           key: _formKey,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -123,6 +125,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
                   : const SizedBox.shrink()),
             ],
           ),
+        ),
         ),
       ),
     );
