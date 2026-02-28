@@ -1,9 +1,18 @@
 class ApiConstants {
-  // Using JSONPlaceholder as a fake REST API
-  static const String baseUrl = 'https://jsonplaceholder.typicode.com';
-  static const String tasksEndpoint = '/todos';
+  // Spring Boot backend URL
+  static const String baseUrl = 'http://localhost:8080/api';
   
-  // For demo purposes, we'll use a mock service
-  // In production, replace with actual API endpoints
+  // Employee endpoints
+  static const String employeesEndpoint = '/employees';
+  static String employeesByDepartmentEndpoint(String deptId) => '/departments/$deptId/employees';
+  static String addEmployeeEndpoint(String deptId) => '/departments/$deptId/employees';
+  static String updateEmployeeEndpoint(String deptId, String empId) => '/departments/$deptId/employees/$empId';
+  static String deleteEmployeeEndpoint(String deptId, String empId) => '/departments/$deptId/employees/$empId';
+  
+  // Department endpoints
+  static const String departmentsEndpoint = '/departments';
+  
+  // Report endpoints
+  static const String employeeReportEndpoint = '/reports/employees/pdf';
 }
 
